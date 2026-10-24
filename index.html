@@ -1,678 +1,654 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>League of Studies - Sistema Ranqueado</title>
-<link href="https://fonts.googleapis.com/css2?family=Beaufort+for+LOL:wght@700&family=Spiegel:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-:root {
---hex-blue: #0ac8b9;
---hex-gold: #c8aa6e;
---hex-gold-hover: #f0e6d2;
---hex-dark-blue: #091428;
---hex-card-bg: #0a141d;
---hex-border: #1e2328;
---hex-glow: rgba(10, 200, 185, 0.25);
---bg-dark: #010a13;
---text-main: #f0e6d2;
---text-muted: #a0aab5;
---danger: #e84057;
---success: #12b886;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>League of Studies - Sistema Ranqueado</title>
+  <link href="https://fonts.googleapis.com/css2?family=Beaufort+for+LOL:wght@700&family=Spiegel:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --hex-blue: #0ac8b9;
+      --hex-gold: #c8aa6e;
+      --hex-gold-hover: #f0e6d2;
+      --hex-dark-blue: #091428;
+      --hex-card-bg: #0a141d;
+      --hex-border: #1e2328;
+      --hex-glow: rgba(10, 200, 185, 0.25);
+      --bg-dark: #010a13;
+      --text-main: #f0e6d2;
+      --text-muted: #a0aab5;
+      --danger: #e84057;
+      --success: #12b886;
+    }
 
-* {
-box-sizing: border-box;
-margin: 0;
-padding: 0;
-font-family: 'Spiegel', sans-serif;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Spiegel', sans-serif;
+    }
 
-body {
-background-color: var(--bg-dark);
-color: var(--text-main);
-background-image: radial-gradient(circle at 50% 0%, #082838 0%, #010a13 70%);
-min-height: 100vh;
-padding: 20px;
-}
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      background-image: radial-gradient(circle at 50% 0%, #082838 0%, #010a13 70%);
+      min-height: 100vh;
+      padding: 20px;
+    }
 
-.container {
-max-width: 1000px;
-margin: 0 auto;
-}
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
 
-header {
-text-align: center;
-margin-bottom: 25px;
-border-bottom: 2px solid var(--hex-border);
-padding-bottom: 15px;
-}
+    header {
+      text-align: center;
+      margin-bottom: 25px;
+      border-bottom: 2px solid var(--hex-border);
+      padding-bottom: 15px;
+    }
 
-h1 {
-font-family: 'Beaufort for LOL', serif;
-text-transform: uppercase;
-letter-spacing: 3px;
-color: var(--hex-gold);
-font-size: 2.2rem;
-text-shadow: 0 0 10px rgba(200, 170, 110, 0.3);
-}
+    h1 {
+      font-family: 'Beaufort for LOL', serif;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--hex-gold);
+      font-size: 2.2rem;
+      text-shadow: 0 0 10px rgba(200, 170, 110, 0.3);
+    }
 
-.subtitle {
-color: var(--text-muted);
-font-size: 0.9rem;
-margin-top: 5px;
-}
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
 
-/* Overall Rank Banner */
-.rank-banner {
-background: linear-gradient(135deg, rgba(10, 20, 29, 0.9), rgba(9, 20, 40, 0.9));
-border: 1px solid var(--hex-gold);
-box-shadow: 0 0 15px var(--hex-glow);
-border-radius: 8px;
-padding: 20px;
-display: flex;
-align-items: center;
-justify-content: space-between;
-margin-bottom: 30px;
-flex-wrap: wrap;
-gap: 15px;
-}
+    .rank-banner {
+      background: linear-gradient(135deg, rgba(10, 20, 29, 0.9), rgba(9, 20, 40, 0.9));
+      border: 1px solid var(--hex-gold);
+      box-shadow: 0 0 15px var(--hex-glow);
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
 
-.rank-info {
-display: flex;
-align-items: center;
-gap: 15px;
-}
+    .rank-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
 
-.rank-badge {
-width: 70px;
-height: 70px;
-background: var(--hex-dark-blue);
-border: 2px solid var(--hex-gold);
-border-radius: 50%;
-display: flex;
-align-items: center;
-justify-content: center;
-font-weight: bold;
-font-size: 1.2rem;
-color: var(--hex-gold);
-box-shadow: 0 0 10px rgba(200, 170, 110, 0.2);
-}
+    .rank-badge {
+      width: 70px;
+      height: 70px;
+      background: var(--hex-dark-blue);
+      border: 2px solid var(--hex-gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: var(--hex-gold);
+      box-shadow: 0 0 10px rgba(200, 170, 110, 0.2);
+    }
 
-.rank-details h2 {
-font-family: 'Beaufort for LOL', serif;
-color: var(--hex-gold);
-font-size: 1.4rem;
-}
+    .rank-details h2 {
+      font-family: 'Beaufort for LOL', serif;
+      color: var(--hex-gold);
+      font-size: 1.4rem;
+    }
 
-.pdl-bar-container {
-width: 100%;
-max-width: 300px;
-background: rgba(0, 0, 0, 0.5);
-border: 1px solid var(--hex-border);
-height: 12px;
-border-radius: 6px;
-overflow: hidden;
-margin-top: 8px;
-}
+    .pdl-bar-container {
+      width: 100%;
+      max-width: 300px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--hex-border);
+      height: 12px;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
 
-.pdl-bar-fill {
-height: 100%;
-background: linear-gradient(90deg, #0ac8b9, #005a82);
-width: 0%;
-transition: width 0.4s ease;
-}
+    .pdl-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #0ac8b9, #005a82);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
 
-.btn-primary {
-background: linear-gradient(180deg, #1e2328 0%, #0a141d 100%);
-border: 1px solid var(--hex-gold);
-color: var(--hex-gold);
-padding: 12px 20px;
-font-weight: bold;
-text-transform: uppercase;
-letter-spacing: 1px;
-cursor: pointer;
-border-radius: 4px;
-transition: all 0.2s;
-}
+    .btn-primary {
+      background: linear-gradient(180deg, #1e2328 0%, #0a141d 100%);
+      border: 1px solid var(--hex-gold);
+      color: var(--hex-gold);
+      padding: 12px 20px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
 
-.btn-primary:hover {
-background: var(--hex-gold);
-color: var(--hex-dark-blue);
-box-shadow: 0 0 10px rgba(200, 170, 110, 0.5);
-}
+    .btn-primary:hover {
+      background: var(--hex-gold);
+      color: var(--hex-dark-blue);
+      box-shadow: 0 0 10px rgba(200, 170, 110, 0.5);
+    }
 
-.btn-danger {
-background: rgba(232, 64, 87, 0.1);
-border: 1px solid var(--danger);
-color: var(--danger);
-padding: 8px 12px;
-cursor: pointer;
-border-radius: 4px;
-font-size: 0.8rem;
-}
+    .btn-danger {
+      background: rgba(232, 64, 87, 0.1);
+      border: 1px solid var(--danger);
+      color: var(--danger);
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
 
-.btn-danger:hover {
-background: var(--danger);
-color: #fff;
-}
+    .btn-danger:hover {
+      background: var(--danger);
+      color: #fff;
+    }
 
-/* Grid de Matérias */
-.section-title {
-font-family: 'Beaufort for LOL', serif;
-color: var(--hex-gold);
-font-size: 1.3rem;
-margin-bottom: 15px;
-display: flex;
-justify-content: space-between;
-align-items: center;
-}
+    .section-title {
+      font-family: 'Beaufort for LOL', serif;
+      color: var(--hex-gold);
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-.subject-grid {
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-gap: 20px;
-margin-bottom: 40px;
-}
+    .subject-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
 
-.subject-card {
-background: var(--hex-card-bg);
-border: 1px solid var(--hex-border);
-border-radius: 6px;
-padding: 15px;
-position: relative;
-transition: transform 0.2s, border-color 0.2s;
-}
+    .subject-card {
+      background: var(--hex-card-bg);
+      border: 1px solid var(--hex-border);
+      border-radius: 6px;
+      padding: 15px;
+      position: relative;
+      transition: transform 0.2s, border-color 0.2s;
+    }
 
-.subject-card:hover {
-transform: translateY(-2px);
-border-color: var(--hex-blue);
-}
+    .subject-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--hex-blue);
+    }
 
-.subject-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 10px;
-}
+    .subject-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
 
-.subject-name {
-font-weight: bold;
-color: var(--text-main);
-font-size: 1.1rem;
-}
+    .subject-name {
+      font-weight: bold;
+      color: var(--text-main);
+      font-size: 1.1rem;
+    }
 
-.subject-rank {
-font-family: 'Beaufort for LOL', serif;
-font-size: 0.9rem;
-font-weight: bold;
-color: var(--hex-blue);
-}
+    .subject-rank {
+      font-family: 'Beaufort for LOL', serif;
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: var(--hex-blue);
+    }
 
-.pdl-text {
-font-size: 0.8rem;
-color: var(--text-muted);
-margin-bottom: 5px;
-}
+    .pdl-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
 
-/* Histórico de Partidas */
-.history-section {
-background: var(--hex-card-bg);
-border: 1px solid var(--hex-border);
-border-radius: 6px;
-padding: 20px;
-}
+    .history-section {
+      background: var(--hex-card-bg);
+      border: 1px solid var(--hex-border);
+      border-radius: 6px;
+      padding: 20px;
+    }
 
-.history-list {
-list-style: none;
-display: flex;
-flex-direction: column;
-gap: 10px;
-max-height: 300px;
-overflow-y: auto;
-}
+    .history-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
 
-.history-item {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 10px 15px;
-background: rgba(0, 0, 0, 0.3);
-border-left: 4px solid var(--hex-border);
-border-radius: 4px;
-}
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 15px;
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 4px solid var(--hex-border);
+      border-radius: 4px;
+    }
 
-.history-item.victory {
-border-left-color: var(--success);
-}
+    .history-item.victory { border-left-color: var(--success); }
+    .history-item.defeat { border-left-color: var(--danger); }
 
-.history-item.defeat {
-border-left-color: var(--danger);
-}
+    .history-info {
+      display: flex;
+      flex-direction: column;
+    }
 
-.history-info {
-display: flex;
-flex-direction: column;
-}
+    .history-subject {
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
 
-.history-subject {
-font-weight: bold;
-font-size: 0.95rem;
-}
+    .history-details {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
 
-.history-details {
-font-size: 0.8rem;
-color: var(--text-muted);
-}
+    .history-pdl {
+      font-weight: bold;
+      font-size: 1rem;
+    }
 
-.history-pdl {
-font-weight: bold;
-font-size: 1rem;
-}
+    .pdl-plus { color: var(--success); }
+    .pdl-minus { color: var(--danger); }
 
-.pdl-plus { color: var(--success); }
-.pdl-minus { color: var(--danger); }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
 
-/* Modal */
-.modal {
-display: none;
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: rgba(0, 0, 0, 0.8);
-justify-content: center;
-align-items: center;
-z-index: 1000;
-}
+    .modal-content {
+      background: var(--hex-dark-blue);
+      border: 1px solid var(--hex-gold);
+      padding: 25px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    }
 
-.modal-content {
-background: var(--hex-dark-blue);
-border: 1px solid var(--hex-gold);
-padding: 25px;
-border-radius: 8px;
-width: 100%;
-max-width: 400px;
-box-shadow: 0 0 20px rgba(0,0,0,0.8);
-}
+    .modal-title {
+      font-family: 'Beaufort for LOL', serif;
+      color: var(--hex-gold);
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+    }
 
-.modal-title {
-font-family: 'Beaufort for LOL', serif;
-color: var(--hex-gold);
-margin-bottom: 15px;
-font-size: 1.3rem;
-}
+    .form-group {
+      margin-bottom: 15px;
+    }
 
-.form-group {
-margin-bottom: 15px;
-}
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
 
-.form-group label {
-display: block;
-margin-bottom: 5px;
-font-size: 0.85rem;
-color: var(--text-muted);
-}
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px;
+      background: var(--bg-dark);
+      border: 1px solid var(--hex-border);
+      color: var(--text-main);
+      border-radius: 4px;
+    }
 
-.form-group input, .form-group select {
-width: 100%;
-padding: 10px;
-background: var(--bg-dark);
-border: 1px solid var(--hex-border);
-color: var(--text-main);
-border-radius: 4px;
-}
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
 
-.modal-actions {
-display: flex;
-justify-content: flex-end;
-gap: 10px;
-margin-top: 20px;
-}
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--text-muted);
+      color: var(--text-muted);
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
 
-.btn-secondary {
-background: transparent;
-border: 1px solid var(--text-muted);
-color: var(--text-muted);
-padding: 8px 15px;
-border-radius: 4px;
-cursor: pointer;
-}
+    .empty-state {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 20px;
+    }
 
-.empty-state {
-color: var(--text-muted);
-font-size: 0.9rem;
-text-align: center;
-padding: 20px;
-}
-
-.header-actions {
-display: flex;
-gap: 10px;
-}
-</style>
+    .header-actions {
+      display: flex;
+      gap: 10px;
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
-<header>
-<h1>League of Studies</h1>
-<div class="subtitle">Transforme seu rendimento em questões na sua Fila Ranqueada</div>
-</header>
+  <div class="container">
+    <header>
+      <h1>League of Studies</h1>
+      <div class="subtitle">Transforme seu rendimento em questões na sua Fila Ranqueada</div>
+    </header>
 
-<!-- Banner do Elo Geral -->
-<div class="rank-banner">
-<div class="rank-info">
-<div class="rank-badge" id="overall-badge">--</div>
-<div class="rank-details">
-<div style="font-size: 0.8rem; color: var(--text-muted);">ELO GERAL DA CONTA</div>
-<h2 id="overall-rank-title">Carregando...</h2>
-<div class="pdl-text" id="overall-pdl-text">0 / 400 PDL</div>
-<div class="pdl-bar-container">
-<div class="pdl-bar-fill" id="overall-pdl-bar"></div>
-</div>
-</div>
-</div>
-<button class="btn-primary" onclick="openModal('match-modal')">+ Jogar Partida (Bateria)</button>
-</div>
+    <div class="rank-banner">
+      <div class="rank-info">
+        <div class="rank-badge" id="overall-badge">FE</div>
+        <div class="rank-details">
+          <div style="font-size: 0.8rem; color: var(--text-muted);">ELO GERAL DA CONTA</div>
+          <h2 id="overall-rank-title">Ferro</h2>
+          <div class="pdl-text" id="overall-pdl-text">0 / 400 PDL</div>
+          <div class="pdl-bar-container">
+            <div class="pdl-bar-fill" id="overall-pdl-bar"></div>
+          </div>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="openModal('match-modal')">+ Jogar Partida (Bateria)</button>
+    </div>
 
-<!-- Seção de Elos por Matéria -->
-<div class="section-title">
-<span>Ranque por Matéria</span>
-<button class="btn-secondary" onclick="openModal('subject-modal')" style="font-size: 0.8rem;">+ Nova Matéria</button>
-</div>
+    <div class="section-title">
+      <span>Ranque por Matéria</span>
+      <button class="btn-secondary" onclick="openModal('subject-modal')" style="font-size: 0.8rem;">+ Nova Matéria</button>
+    </div>
 
-<div class="subject-grid" id="subject-grid">
-<!-- Cards inseridos dinamicamente -->
-</div>
+    <div class="subject-grid" id="subject-grid"></div>
 
-<!-- Histórico de Partidas -->
-<div class="history-section">
-<div class="section-title">
-<span>Histórico de Partidas</span>
-<div class="header-actions">
-<button class="btn-danger" title="Limpar Histórico de Partidas" onclick="limparHistorico()">🗑️ Limpar Histórico</button>
-<button class="btn-danger" title="Zerar Tudo e Recomeçar do Zero" onclick="resetTotal()">🔄 Reset Total</button>
-</div>
-</div>
-<ul class="history-list" id="history-list">
-<!-- Itens inseridos dinamicamente -->
-</ul>
-</div>
-</div>
+    <div class="history-section">
+      <div class="section-title">
+        <span>Histórico de Partidas</span>
+        <div class="header-actions">
+          <button class="btn-danger" title="Limpar Histórico" onclick="limparHistorico()">🗑️ Limpar Histórico</button>
+          <button class="btn-danger" title="Reset Total" onclick="resetTotal()">🔄 Reset Total</button>
+        </div>
+      </div>
+      <ul class="history-list" id="history-list"></ul>
+    </div>
+  </div>
 
-<!-- Modal para Registrar Partida -->
-<div class="modal" id="match-modal">
-<div class="modal-content">
-<div class="modal-title">Registrar Bateria de Questões</div>
-<form id="match-form" onsubmit="salvarPartida(event)">
-<div class="form-group">
-<label>Matéria</label>
-<select id="match-subject" required></select>
-</div>
-<div class="form-group">
-<label>Assunto / Tópico (Opcional)</label>
-<input type="text" id="match-topic" placeholder="Ex: Genética, Estequiometria...">
-</div>
-<div class="form-group">
-<label>Total de Questões Feitas</label>
-<input type="number" id="match-total" min="1" required placeholder="Ex: 15">
-</div>
-<div class="form-group">
-<label>Quantidade de Acertos</label>
-<input type="number" id="match-hits" min="0" required placeholder="Ex: 13">
-</div>
-<div class="modal-actions">
-<button type="button" class="btn-secondary" onclick="closeModal('match-modal')">Cancelar</button>
-<button type="submit" class="btn-primary">Finalizar Partida</button>
-</div>
-</form>
-</div>
-</div>
+  <!-- Modal Partida -->
+  <div class="modal" id="match-modal">
+    <div class="modal-content">
+      <div class="modal-title">Registrar Bateria de Questões</div>
+      <form id="match-form" onsubmit="salvarPartida(event)">
+        <div class="form-group">
+          <label>Matéria</label>
+          <select id="match-subject" required></select>
+        </div>
+        <div class="form-group">
+          <label>Assunto / Tópico (Opcional)</label>
+          <input type="text" id="match-topic" placeholder="Ex: Genética, Estequiometria...">
+        </div>
+        <div class="form-group">
+          <label>Total de Questões Feitas</label>
+          <input type="number" id="match-total" min="1" required placeholder="Ex: 15">
+        </div>
+        <div class="form-group">
+          <label>Quantidade de Acertos</label>
+          <input type="number" id="match-hits" min="0" required placeholder="Ex: 13">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeModal('match-modal')">Cancelar</button>
+          <button type="submit" class="btn-primary">Finalizar Partida</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-<!-- Modal para Nova Matéria -->
-<div class="modal" id="subject-modal">
-<div class="modal-content">
-<div class="modal-title">Adicionar Nova Matéria</div>
-<form id="subject-form" onsubmit="salvarMateria(event)">
-<div class="form-group">
-<label>Nome da Matéria</label>
-<input type="text" id="new-subject-name" required placeholder="Ex: Física, História...">
-</div>
-<div class="modal-actions">
-<button type="button" class="btn-secondary" onclick="closeModal('subject-modal')">Cancelar</button>
-<button type="submit" class="btn-primary">Criar Matéria</button>
-</div>
-</form>
-</div>
-</div>
+  <!-- Modal Matéria -->
+  <div class="modal" id="subject-modal">
+    <div class="modal-content">
+      <div class="modal-title">Adicionar Nova Matéria</div>
+      <form id="subject-form" onsubmit="salvarMateria(event)">
+        <div class="form-group">
+          <label>Nome da Matéria</label>
+          <input type="text" id="new-subject-name" required placeholder="Ex: Física, História...">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeModal('subject-modal')">Cancelar</button>
+          <button type="submit" class="btn-primary">Criar Matéria</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-<script>
-// Definição dos Elos do LoL (Escala de PDL total acumulado)
-const ELOS = [
-{ nome: "Ferro", minPdl: 0, badge: "FE" },
-{ nome: "Bronze", minPdl: 400, badge: "BR" },
-{ nome: "Prata", minPdl: 800, badge: "PR" },
-{ nome: "Ouro", minPdl: 1200, badge: "OU" },
-{ nome: "Platina", minPdl: 1600, badge: "PL" },
-{ nome: "Esmeralda", minPdl: 2000, badge: "ES" },
-{ nome: "Diamante", minPdl: 2400, badge: "DI" },
-{ nome: "Mestre", minPdl: 2800, badge: "ME" },
-{ nome: "Grão-Mestre", minPdl: 3200, badge: "GM" },
-{ nome: "Desafiante", minPdl: 3600, badge: "CH" }
- ];
+  <script>
+    const ELOS = [
+      { nome: "Ferro", minPdl: 0, badge: "FE" },
+      { nome: "Bronze", minPdl: 400, badge: "BR" },
+      { nome: "Prata", minPdl: 800, badge: "PR" },
+      { nome: "Ouro", minPdl: 1200, badge: "OU" },
+      { nome: "Platina", minPdl: 1600, badge: "PL" },
+      { nome: "Esmeralda", minPdl: 2000, badge: "ES" },
+      { nome: "Diamante", minPdl: 2400, badge: "DI" },
+      { nome: "Mestre", minPdl: 2800, badge: "ME" },
+      { nome: "Grão-Mestre", minPdl: 3200, badge: "GM" },
+      { nome: "Desafiante", minPdl: 3600, badge: "CH" }
+    ];
 
-// Estado inicial padrão se nada existir no LocalStorage
-const estadoPadrao = {
-materias: {
-biologia: { id: "biologia", nome: "Biologia", pdl: 0 },
-quimica: { id: "quimica", nome: "Química", pdl: 0 },
-matematica: { id: "matematica", nome: "Matemática", pdl: 0 }
-},
-historico: []
-};
+    const estadoPadrao = {
+      materias: {
+        biologia: { id: "biologia", nome: "Biologia", pdl: 0 },
+        quimica: { id: "quimica", nome: "Química", pdl: 0 },
+        matematica: { id: "matematica", nome: "Matemática", pdl: 0 }
+      },
+      historico: []
+    };
 
-let estado = loadState();
+    let estado = loadState();
 
-function loadState() {
-const saved = localStorage.getItem('league_of_studies_db');
-if (saved) {
-try {
-return JSON.parse(saved);
-} catch(e) {
-return estadoPadrao;
-}
-}
-return estadoPadrao;
-}
+    function loadState() {
+      const saved = localStorage.getItem('league_of_studies_db');
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch(e) {
+          return JSON.parse(JSON.stringify(estadoPadrao));
+        }
+      }
+      return JSON.parse(JSON.stringify(estadoPadrao));
+    }
 
-function saveState() {
-localStorage.setItem('league_of_studies_db', JSON.stringify(estado));
-render();
-}
+    function saveState() {
+      localStorage.setItem('league_of_studies_db', JSON.stringify(estado));
+      render();
+    }
 
-// Calcula o elo e a divisão com base no PDL acumulado
-function getEloInfo(pdlTotal) {
-let eloAtual = ELOS[0];
-let proximoElo = ELOS[1];
+    function getEloInfo(pdlTotal) {
+      let eloAtual = ELOS[0];
+      let proximoElo = ELOS[1];
 
-for (let i = ELOS.length - 1; i >= 0; i--) {
-if (pdlTotal >= ELOS[i].minPdl) {
-eloAtual = ELOS[i];
-proximoElo = ELOS[i + 1] || null;
-break;
-}
-}
+      for (let i = ELOS.length - 1; i >= 0; i--) {
+        if (pdlTotal >= ELOS[i].minPdl) {
+          eloAtual = ELOS[i];
+          proximoElo = ELOS[i + 1] || null;
+          break;
+        }
+      }
 
-if (!proximoElo) {
-return { nome: "Desafiante", badge: "CH", pdlNoElo: pdlTotal - 3600, maxPdl: 1000, pct: 100 };
-}
+      if (!proximoElo) {
+        return { nome: "Desafiante", badge: "CH", pdlNoElo: pdlTotal - 3600, maxPdl: 1000, pct: 100 };
+      }
 
-const pdlNoElo = pdlTotal - eloAtual.minPdl;
-const faixaElo = proximoElo.minPdl - eloAtual.minPdl;
-const pct = Math.min(100, Math.max(0, (pdlNoElo / faixaElo) * 100));
+      const pdlNoElo = pdlTotal - eloAtual.minPdl;
+      const faixaElo = proximoElo.minPdl - eloAtual.minPdl;
+      const pct = Math.min(100, Math.max(0, (pdlNoElo / faixaElo) * 100));
 
-return {
-nome: eloAtual.nome,
-badge: eloAtual.badge,
-pdlNoElo: pdlNoElo,
-maxPdl: faixaElo,
-pct: pct
-};
-}
+      return {
+        nome: eloAtual.nome,
+        badge: eloAtual.badge,
+        pdlNoElo: pdlNoElo,
+        maxPdl: faixaElo,
+        pct: pct
+      };
+    }
 
-// Modal Control
-function openModal(id) {
-if (id === 'match-modal') {
-const select = document.getElementById('match-subject');
-select.innerHTML = '';
-Object.values(estado.materias).forEach(m => {
-select.innerHTML += <option value="${m.id}">${m.nome}&lt;/option>;
-});
-}
-document.getElementById(id).style.display = 'flex';
-}
+    function openModal(id) {
+      if (id === 'match-modal') {
+        const select = document.getElementById('match-subject');
+        select.innerHTML = '';
+        Object.values(estado.materias).forEach(m => {
+          select.innerHTML += `<option value="${m.id}">${m.nome}</option>`;
+        });
+      }
+      document.getElementById(id).style.display = 'flex';
+    }
 
-function closeModal(id) {
-document.getElementById(id).style.display = 'none';
-}
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
 
-// Cálculo de PDL ganho/perdido conforme acerto
-function calcularResultadoPartida(total, acertos) {
-const pct = (acertos / total) * 100;
-let pdl = 0;
+    function calcularResultadoPartida(total, acertos) {
+      const pct = (acertos / total) * 100;
+      let pdl = 0;
 
-if (pct >= 90) pdl = 25; // S+
-else if (pct >= 80) pdl = 15; // Vitória boa
-else if (pct >= 70) pdl = 5; // Vitória apertada
-else if (pct >= 60) pdl = -10; // Derrota leve
-else pdl = -20; // Derrota pesada
+      if (pct >= 90) pdl = 25;
+      else if (pct >= 80) pdl = 15;
+      else if (pct >= 70) pdl = 5;
+      else if (pct >= 60) pdl = -10;
+      else pdl = -20;
 
-return { pct: pct.toFixed(1), pdl: pdl };
-}
+      return { pct: pct.toFixed(1), pdl: pdl };
+    }
 
-function salvarPartida(e) {
-e.preventDefault();
-const subId = document.getElementById('match-subject').value;
-const topic = document.getElementById('match-topic').value.trim();
-const total = parseInt(document.getElementById('match-total').value);
-const hits = parseInt(document.getElementById('match-hits').value);
+    function salvarPartida(e) {
+      e.preventDefault();
+      const subId = document.getElementById('match-subject').value;
+      const topic = document.getElementById('match-topic').value.trim();
+      const total = parseInt(document.getElementById('match-total').value);
+      const hits = parseInt(document.getElementById('match-hits').value);
 
-if (hits > total) {
-alert("O número de acertos não pode ser maior que o total de questões!");
-return;
-}
+      if (hits > total) {
+        alert("O número de acertos não pode ser maior que o total de questões!");
+        return;
+      }
 
-const res = calcularResultadoPartida(total, hits);
+      const res = calcularResultadoPartida(total, hits);
+      estado.materias[subId].pdl = Math.max(0, estado.materias[subId].pdl + res.pdl);
 
-// Atualizar PDL da matéria
-estado.materias[subId].pdl = Math.max(0, estado.materias[subId].pdl + res.pdl);
+      estado.historico.unshift({
+        data: new Date().toLocaleDateString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+        materiaNome: estado.materias[subId].nome,
+        topico: topic,
+        total: total,
+        acertos: hits,
+        pct: res.pct,
+        pdl: res.pdl
+      });
 
-// Registrar no histórico
-estado.historico.unshift({
-data: new Date().toLocaleDateString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
-materiaNome: estado.materias[subId].nome,
-topico: topic,
-total: total,
-acertos: hits,
-pct: res.pct,
-pdl: res.pdl
-});
+      saveState();
+      closeModal('match-modal');
+      document.getElementById('match-form').reset();
+    }
 
-saveState();
-closeModal('match-modal');
-document.getElementById('match-form').reset();
-}
+    function salvarMateria(e) {
+      e.preventDefault();
+      const nome = document.getElementById('new-subject-name').value.trim();
+      const id = nome.toLowerCase().replace(/[^a-z0-9]/g, '');
 
-function salvarMateria(e) {
-e.preventDefault();
-const nome = document.getElementById('new-subject-name').value.trim();
-const id = nome.toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (estado.materias[id]) {
+        alert("Esta matéria já existe!");
+        return;
+      }
 
-if (estado.materias[id]) {
-alert("Esta matéria já existe!");
-return;
-}
+      estado.materias[id] = { id: id, nome: nome, pdl: 0 };
+      saveState();
+      closeModal('subject-modal');
+      document.getElementById('subject-form').reset();
+    }
 
-estado.materias[id] = { id: id, nome: nome, pdl: 0 };
-saveState();
-closeModal('subject-modal');
-document.getElementById('subject-form').reset();
-}
+    function limparHistorico() {
+      if (confirm("Tem certeza que deseja apagar todo o histórico de partidas? O PDL das matérias será mantido.")) {
+        estado.historico = [];
+        saveState();
+      }
+    }
 
-// Limpar APENAS o histórico de partidas
-function limparHistorico() {
-if (confirm("Tem certeza que deseja apagar todo o histórico de partidas? O PDL das matérias será mantido.")) {
-estado.historico = [];
-saveState();
-}
-}
+    function resetTotal() {
+      if (confirm("⚠️ ATENÇÃO: Deseja zerar absolutamente TUDO e voltar para o Ferro 0 PDL em todas as matérias?")) {
+        estado = JSON.parse(JSON.stringify(estadoPadrao));
+        saveState();
+      }
+    }
 
-// Resetar TUDO (Zerar matérias e histórico do zero)
-function resetTotal() {
-if (confirm("⚠️ ATENÇÃO: Deseja zerar absolutamente TUDO e voltar para o Ferro 0 PDL em todas as matérias?")) {
-estado = {
-materias: {
-biologia: { id: "biologia", nome: "Biologia", pdl: 0 },
-quimica: { id: "quimica", nome: "Química", pdl: 0 },
-matematica: { id: "matematica", nome: "Matemática", pdl: 0 }
-},
-historico: []
-};
-saveState();
-}
-}
+    function render() {
+      const grid = document.getElementById('subject-grid');
+      grid.innerHTML = '';
 
-// Renderizar Interface
-function render() {
-// 1. Renderizar Matérias
-const grid = document.getElementById('subject-grid');
-grid.innerHTML = '';
+      let somaPdlGlobal = 0;
+      const materiasArr = Object.values(estado.materias);
 
-let somaPdlGlobal = 0;
-const materiasArr = Object.values(estado.materias);
+      materiasArr.forEach(m => {
+        somaPdlGlobal += m.pdl;
+        const info = getEloInfo(m.pdl);
 
-materiasArr.forEach(m => {
-somaPdlGlobal += m.pdl;
-const info = getEloInfo(m.pdl);
+        grid.innerHTML += `
+          <div class="subject-card">
+            <div class="subject-header">
+              <span class="subject-name">${m.nome}</span>
+              <span class="subject-rank">${info.nome}</span>
+            </div>
+            <div class="pdl-text">${info.pdlNoElo} / ${info.maxPdl} PDL</div>
+            <div class="pdl-bar-container">
+              <div class="pdl-bar-fill" style="width: ${info.pct}%"></div>
+            </div>
+          </div>
+        `;
+      });
 
-grid.innerHTML += &lt;div class="subject-card"&gt; &lt;div class="subject-header"&gt; &lt;span class="subject-name"&gt;${m.nome}</span>
-<span class="subject-rank">${info.nome}&lt;/span&gt; &lt;/div&gt; &lt;div class="pdl-text"&gt;${info.pdlNoElo} / ${info.maxPdl} PDL&lt;/div&gt; &lt;div class="pdl-bar-container"&gt; &lt;div class="pdl-bar-fill" style="width: ${info.pct}%"></div>
-</div>
-</div>
-`;
-});
+      const pdlMedioGlobal = materiasArr.length ? Math.round(somaPdlGlobal / materiasArr.length) : 0;
+      const infoGeral = getEloInfo(pdlMedioGlobal);
 
-// 2. Renderizar Elo Geral
-const pdlMedioGlobal = materiasArr.length ? Math.round(somaPdlGlobal / materiasArr.length) : 0;
-const infoGeral = getEloInfo(pdlMedioGlobal);
+      document.getElementById('overall-badge').innerText = infoGeral.badge;
+      document.getElementById('overall-rank-title').innerText = infoGeral.nome;
+      document.getElementById('overall-pdl-text').innerText = `${infoGeral.pdlNoElo} / ${infoGeral.maxPdl} PDL`;
+      document.getElementById('overall-pdl-bar').style.width = `${infoGeral.pct}%`;
 
-document.getElementById('overall-badge').innerText = infoGeral.badge;
-document.getElementById('overall-rank-title').innerText = infoGeral.nome;
-document.getElementById('overall-pdl-text').innerText = ${infoGeral.pdlNoElo} / $`{infoGeral.maxPdl} PDL`; document.getElementById('overall-pdl-bar').style.width =${infoGeral.pct}%`;
+      const histList = document.getElementById('history-list');
+      histList.innerHTML = '';
 
-// 3. Renderizar Histórico
-const histList = document.getElementById('history-list');
-histList.innerHTML = '';
+      if (estado.historico.length === 0) {
+        histList.innerHTML = `<div class="empty-state">Nenhuma partida registrada ainda. Faça uma bateria de questões para subir de elo!</div>`;
+      } else {
+        estado.historico.forEach(h => {
+          const isWin = h.pdl > 0;
+          const pdlClass = isWin ? 'pdl-plus' : 'pdl-minus';
+          const pdlSign = isWin ? '+' : '';
 
-if (estado.historico.length === 0) {
-histList.innerHTML = <div class="empty-state"&gt;Nenhuma partida registrada ainda. Faça uma bateria de questões para subir de elo!&lt;/div>;
-} else {
-estado.historico.forEach(h => {
-const isWin = h.pdl > 0;
-const pdlClass = isWin ? 'pdl-plus' : 'pdl-minus';
-const pdlSign = isWin ? '+' : '';
+          histList.innerHTML += `
+            <li class="history-item ${isWin ? 'victory' : 'defeat'}">
+              <div class="history-info">
+                <span class="history-subject">${h.materiaNome} ${h.topico ? `• ${h.topico}` : ''}</span>
+                <span class="history-details">${h.acertos}/${h.total} acertos (${h.pct}%) — ${h.data}</span>
+              </div>
+              <div class="history-pdl ${pdlClass}">${pdlSign}${h.pdl} PDL</div>
+            </li>
+          `;
+        });
+      }
+    }
 
-histList.innerHTML += &lt;li class="history-item ${isWin ? 'victory' : 'defeat'}">
-<div class="history-info">
-<span class="history-subject">${h.materiaNome} ${h.topico ? •${h.topico}: ''}&lt;/span&gt; &lt;span class="history-details"&gt;${h.acertos}/${h.total} acertos (${h.pct}%) — ${h.data}&lt;/span&gt; &lt;/div&gt; &lt;div class="history-pdl ${pdlClass}">${pdlSign}${h.pdl} PDL&lt;/div&gt; &lt;/li&gt;;
-});
-}
-}
-
-// Inicializar na abertura
-render();
-</script>
+    render();
+  </script>
 </body>
 </html>
