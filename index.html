@@ -16,6 +16,7 @@
       --dark-card: #0a141d;
       --dark-border: #1e2328;
       --danger: #e84057;
+      --warning: #f39c12;
       --success: #12b886;
     }
 
@@ -261,14 +262,20 @@
       border-radius: 8px;
       padding: 15px;
       display: flex;
-      align-items: center;
-      gap: 15px;
+      flex-direction: column;
+      gap: 10px;
       transition: transform 0.2s, border-color 0.2s;
     }
 
     .subject-card:hover, .champ-card:hover {
       transform: translateY(-2px);
       border-color: var(--hex-blue);
+    }
+
+    .champ-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     .subject-mini-badge {
@@ -401,8 +408,8 @@
     .header-actions { display: flex; gap: 8px; }
 
     .champ-badge {
-      width: 48px;
-      height: 48px;
+      width: 45px;
+      height: 45px;
       border-radius: 6px;
       background: #005a82;
       border: 2px solid var(--hex-blue);
@@ -412,9 +419,37 @@
       font-family: 'Beaufort for LOL', serif;
       font-weight: bold;
       color: #fff;
+      flex-shrink: 0;
     }
 
     .champ-mastery-high { border-color: var(--gold-2); box-shadow: 0 0 10px rgba(200, 170, 110, 0.5); }
+
+    /* Advisory Tags for Champions */
+    .champ-alert {
+      font-size: 0.75rem;
+      padding: 6px 10px;
+      border-radius: 4px;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    .alert-danger {
+      background: rgba(232, 64, 87, 0.15);
+      border: 1px solid var(--danger);
+      color: #ff7b8a;
+    }
+
+    .alert-warning {
+      background: rgba(243, 156, 18, 0.15);
+      border: 1px solid var(--warning);
+      color: #f8c26c;
+    }
+
+    .alert-ok {
+      background: rgba(18, 184, 134, 0.1);
+      border: 1px solid rgba(18, 184, 134, 0.3);
+      color: #72ecbe;
+    }
   </style>
 </head>
 <body>
@@ -425,13 +460,13 @@
       <div class="subtitle">Fila Ranqueada de Desempenho em Questões</div>
     </header>
 
-    <!-- Navegação de Abas -->
+    <!-- Navigation Tabs -->
     <div class="nav-tabs">
       <button class="tab-btn active" onclick="switchTab('tab-dashboard')">🏆 Ranque Geral</button>
       <button class="tab-btn" onclick="switchTab('tab-champions')">⚔️ Conteúdos (Campeões)</button>
     </div>
 
-    <!-- TAB 1: DASHBOARD DE RANQUE -->
+    <!-- TAB 1: DASHBOARD -->
     <div class="tab-content active" id="tab-dashboard">
       <div class="rank-banner">
         <div class="rank-info">
@@ -482,16 +517,16 @@
       </div>
     </div>
 
-    <!-- TAB 2: CAMPEÕES (CONTEÚDOS/ASSUNTOS) -->
+    <!-- TAB 2: CAMPEÕES / CONTEÚDOS -->
     <div class="tab-content" id="tab-champions">
       <div class="section-title">
-        <span>Galeria de Campeões (Winrate por Conteúdo)</span>
+        <span>Galeria de Campeões (Winrate & Alerta de Treino)</span>
       </div>
       <div class="champ-grid" id="champ-grid"></div>
     </div>
   </div>
 
-  <!-- Modal Registrar Partida -->
+  <!-- Modal Partida -->
   <div class="modal" id="match-modal">
     <div class="modal-content">
       <div class="modal-title">Registrar Bateria de Questões</div>
@@ -502,7 +537,7 @@
         </div>
         <div class="form-group">
           <label>Assunto / Conteúdo (Campeão)</label>
-          <input type="text" id="match-topic" required placeholder="Ex: Genética, Estequiometria, Funções...">
+          <input type="text" id="match-topic" required placeholder="Ex: Genética, Estequiometria...">
         </div>
         <div class="form-group">
           <label>Total de Questões Feitas</label>
@@ -520,7 +555,7 @@
     </div>
   </div>
 
-  <!-- Modal Adicionar Matéria -->
+  <!-- Modal Matéria -->
   <div class="modal" id="subject-modal">
     <div class="modal-content">
       <div class="modal-title">Adicionar Nova Matéria</div>
@@ -657,6 +692,7 @@
       estado.materias[subId].pdl = Math.max(0, estado.materias[subId].pdl + res.pdl);
 
       estado.historico.unshift({
+        dataIso: new Date().toISOString(),
         data: new Date().toLocaleDateString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
         materiaId: subId,
         materiaNome: estado.materias[subId].nome,
@@ -702,6 +738,15 @@
       }
     }
 
+    // Calcula dias decorridos entre a data Iso registrada e hoje
+    function calcularDiasPassados(dataIso) {
+      if (!dataIso) return 0;
+      const ultimaData = new Date(dataIso);
+      const hoje = new Date();
+      const diffTempo = Math.abs(hoje - ultimaData);
+      return Math.floor(diffTempo / (1000 * 60 * 60 * 24));
+    }
+
     function render() {
       // 1. Grid de Matérias
       const grid = document.getElementById('subject-grid');
@@ -716,14 +761,16 @@
 
         grid.innerHTML += `
           <div class="subject-card">
-            <div class="subject-mini-badge ${info.cssClass}">${info.badge}</div>
-            <div class="subject-info">
-              <div class="subject-name">${m.nome}</div>
-              <div class="subject-rank">${info.nome}</div>
-              <div class="pdl-text">${info.pdlNoElo} / ${info.maxPdl} PDL</div>
-              <div class="pdl-bar-container" style="width: 100%; height: 8px;">
-                <div class="pdl-bar-fill" style="width: ${info.pct}%"></div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div class="subject-mini-badge ${info.cssClass}">${info.badge}</div>
+              <div class="subject-info">
+                <div class="subject-name">${m.nome}</div>
+                <div class="subject-rank">${info.nome}</div>
+                <div class="pdl-text">${info.pdlNoElo} / ${info.maxPdl} PDL</div>
               </div>
+            </div>
+            <div class="pdl-bar-container" style="width: 100%; height: 8px;">
+              <div class="pdl-bar-fill" style="width: ${info.pct}%"></div>
             </div>
           </div>
         `;
@@ -776,7 +823,7 @@
         });
       }
 
-      // 5. Renderizar Conteúdos (Campeões & Winrate)
+      // 5. Renderizar Campeões com Alertas
       renderCampeoes();
     }
 
@@ -784,7 +831,6 @@
       const champGrid = document.getElementById('champ-grid');
       champGrid.innerHTML = '';
 
-      // Agrupar estatísticas por Tópico/Conteúdo
       const topiMap = {};
 
       estado.historico.forEach(h => {
@@ -794,7 +840,8 @@
             materia: h.materiaNome,
             topico: h.topico || 'Geral',
             partidas: 0,
-            somaPct: 0
+            somaPct: 0,
+            ultimaDataIso: h.dataIso || null
           };
         }
         topiMap[key].partidas += 1;
@@ -804,27 +851,45 @@
       const topicosArr = Object.values(topiMap);
 
       if (topicosArr.length === 0) {
-        champGrid.innerHTML = `<div class="empty-state" style="grid-column: 1 / -1;">Nenhum conteúdo registrado ainda. Ao registrar partidas e preencher o campo "Assunto/Conteúdo", seus campeões aparecerão aqui!</div>`;
+        champGrid.innerHTML = `<div class="empty-state" style="grid-column: 1 / -1;">Nenhum conteúdo registrado. Ao jogar partidas e indicar o assunto, seus campeões aparecerão aqui com recomendações de treino!</div>`;
         return;
       }
 
       topicosArr.forEach(c => {
         const winrateAvg = Math.round(c.somaPct / c.partidas);
+        const diasSemTreino = calcularDiasPassados(c.ultimaDataIso);
         const isHighMastery = winrateAvg >= 80;
+
+        let alertHtml = '';
+
+        if (winrateAvg < 75 && diasSemTreino >= 7) {
+          alertHtml = `<div class="champ-alert alert-danger">⚠️ REVISÃO URGENTE: Rendimento instável (${winrateAvg}%) e sem treino há ${diasSemTreino} dias!</div>`;
+        } else if (winrateAvg < 70) {
+          alertHtml = `<div class="champ-alert alert-danger">⚠️ REVISÃO NECESSÁRIA: Winrate baixo (${winrateAvg}%). Refaça a teoria!</div>`;
+        } else if (diasSemTreino >= 14) {
+          alertHtml = `<div class="champ-alert alert-warning">💡 REVISÃO DE MANUTENÇÃO: ${diasSemTreino} dias sem questões deste conteúdo.</div>`;
+        } else {
+          alertHtml = `<div class="champ-alert alert-ok">✅ EM DIA: Treinado há ${diasSemTreino === 0 ? 'pouco tempo' : diasSemTreino + ' dia(s)'}.</div>`;
+        }
+
+        const textoDias = diasSemTreino === 0 ? "Hoje" : `Há ${diasSemTreino} dia(s)`;
 
         champGrid.innerHTML += `
           <div class="champ-card">
-            <div class="champ-badge ${isHighMastery ? 'champ-mastery-high' : ''}">
-              ${winrateAvg >= 85 ? 'M7' : winrateAvg >= 75 ? 'M5' : 'M3'}
-            </div>
-            <div class="champ-info">
-              <div class="champ-name">${c.topico}</div>
-              <div class="champ-sub">${c.materia}</div>
-              <div class="champ-winrate">${winrateAvg}% Winrate (${c.partidas} ${c.partidas === 1 ? 'partida' : 'partidas'})</div>
-              <div class="pdl-bar-container" style="width: 100%; height: 6px; margin-top: 6px;">
-                <div class="pdl-bar-fill" style="width: ${winrateAvg}%; background: ${winrateAvg >= 80 ? 'var(--success)' : winrateAvg >= 60 ? 'var(--hex-blue)' : 'var(--danger)'}"></div>
+            <div class="champ-card-header">
+              <div class="champ-badge ${isHighMastery ? 'champ-mastery-high' : ''}">
+                ${winrateAvg >= 85 ? 'M7' : winrateAvg >= 75 ? 'M5' : 'M3'}
+              </div>
+              <div class="champ-info">
+                <div class="champ-name">${c.topico}</div>
+                <div class="champ-sub">${c.materia}</div>
+                <div class="champ-winrate">${winrateAvg}% Winrate (${c.partidas} ${c.partidas === 1 ? 'partida' : 'partidas'}) • ${textoDias}</div>
               </div>
             </div>
+            <div class="pdl-bar-container" style="width: 100%; height: 6px;">
+              <div class="pdl-bar-fill" style="width: ${winrateAvg}%; background: ${winrateAvg >= 80 ? 'var(--success)' : winrateAvg >= 60 ? 'var(--hex-blue)' : 'var(--danger)'}"></div>
+            </div>
+            ${alertHtml}
           </div>
         `;
       });
